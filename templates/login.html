@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>로그인</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+  <div class="title">
+    <h1><span>오늘</span>의 코디는?</h1><br/>
+    <img src="../static/logo.png" alt="logo">
+  </div>
+  <form method="post" action="{{ url_for('login') }}">
+    <div class="title_login">
+      <img src="{{ url_for('static', filename='images/sun.png') }}" alt="햇살 아이콘"></img>
+      <h1>예보 확인</h1>
+      <img src="{{ url_for('static', filename='images/sun.png') }}" alt="햇살 아이콘"></img>
+    </div>
+    
+    {% if error %}
+      <p style="color:red;">{{ error }}</p>
+    {% endif %}
+    <input type="text" name="username" placeholder="아이디" required><br>
+    <input type="password" name="password" placeholder="비밀번호" required><br>
+    <button class="login" type="submit">로그인</button>
+    <p>계정이 없나요? <a href="{{ url_for('register') }}">회원가입</a></p>
+  </form>
+</body>
+</html>

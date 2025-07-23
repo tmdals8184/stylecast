@@ -1,0 +1,111 @@
+body {
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* 뷰포트 높이만큼 설정 */
+    background-image: url('/static/spring2.gif');
+}
+
+.wrapper {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1500px;
+    height: 1100px;
+    margin: 40px auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    letter-spacing: 6px;
+    margin: 50px 0 25px 0 ;
+    text-align: center;
+    font-size: 60px;
+}
+
+#monthYear {
+    display: flex;
+    justify-content: center;  /* 가로 가운데 (필요시) */
+    align-items:center;      /* 세로 가운데 */
+    height: 50px;            /* 높이 지정 필수 */
+    line-height: 50px; /* height와 동일하게 설정 */
+    font-size: 30px;
+    margin-top: 5px;
+}
+
+/* 이전달 / 다음달 / 월 표시 영역 */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+button {
+    padding: 10px;
+    width: 100px;
+    font-family: var(--font-family-main);
+    font-size: 15px;
+    border: none;
+    background-color: #A79277;
+    color: var(--brown);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover { background-color: var(--pale-brown);}
+
+/* 달력 스타일 */
+table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th, td {
+    /* border: 5px solid #A79277; */
+    border: 5px solid #D7D3BF;
+    width: 150px;
+    height: 120px;
+    cursor: pointer;
+    vertical-align: middle;
+    font-size: 25px;
+}
+
+th { background-color: var(--mint); }
+
+.today {
+    background-color: var(--mint);
+    color: var(--brown);
+}
+
+.selected {
+    background-color: #ff6347;
+    color: white;
+}
+
+.today.selected {
+    background-color: #ff4500;
+    color: white;
+}
+
+/* 로그아웃 버튼 오른쪽 위에 고정 */
+#logout {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #5a1a7a;
+    font-weight: bold;
+}
+#logout:hover {
+    text-decoration: underline;
+}

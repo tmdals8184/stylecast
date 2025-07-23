@@ -1,0 +1,170 @@
+body {
+    text-align: center;
+    background-color: var(--light-mint);
+}
+
+form.memo { 
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom:20px;
+}
+
+form { 
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    /* max-width: 600px; */
+    margin: 0 auto;
+    margin-bottom:20px;
+}
+
+textarea {
+    display: block;
+    text-align:center; 
+    font-size: 25px;
+    display: block;
+    margin-right: 20px;
+    width: 100%;
+    height: 60px;
+    padding: 16px;
+    border: 7px solid var(--line-brown);
+    color: var(--brown);
+    border-radius: 12px;
+    box-sizing: border-box;
+    resize: none;
+    font-family: inherit;
+    line-height: 1.4;
+    background-color: var(--pale-brown);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.photo-container {
+    /* 원래 */
+    display: inline-block;
+    margin: 20px;
+    vertical-align: top;
+    max-width: 320px;
+    /* min-height: 500px; */
+}
+
+.photo-group {
+  background-color: #DED3C4;  /* textarea 배경 색 */
+  border: 7px dashed #a1753a;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  /* padding: 20px; */
+  margin: 0 auto;
+  margin-bottom: 40px;
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+img {
+    display: block;
+    margin: 0 auto 10px auto;
+    max-width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+.upload-section { margin-top: 20px; }
+a {
+    display: inline-block;
+    /* margin-top: 30px; */
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    /* margin: 10px 0; */
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 50px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-weight: lighter;
+}
+
+/* 라벨을 버튼처럼 보이게 */
+label {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  /* border: 2px solid #a1753a; */
+  border-radius: 10px;
+  background-color: var(--line-brown);
+  color: #FFF;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* 라디오 input은 숨김 */
+label input[type="radio"] {
+  display: none;
+}
+
+/* 선택된 버튼 스타일 */
+label input[type="radio"]:checked + span,
+label input[type="radio"]:checked ~ * {
+  /* background-color: #000000; */
+  color: var(--brown);
+}
+
+
+h2 {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    box-sizing: border-box;
+    text-align: center;
+    max-width: 1200px;
+    width: 100%;
+    height: 80px;
+    line-height: 90px;
+    font-weight: lighter;
+    background-color: var(--brown);
+    color: #F0E4D3;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+button {
+    font-family: var(--font-family-main);
+    background-color: var(--mint);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    font-size: 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+.btn.delete {
+    background-color: #dc3545;
+}
+.pinterest-label {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 6px;
+}
+
+.hidden {
+    display: none;
+}
+
+#pagination-buttons {
+    margin-top: 20px;
+}
+#pagination-buttons button {
+    margin: 0 10px;
+}

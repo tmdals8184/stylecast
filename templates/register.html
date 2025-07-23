@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>회원가입</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+  <form method="post" action="{{ url_for('register') }}">
+    <h1>회원가입</h1>
+    {% if error %}
+      <p style="color:red;">{{ error }}</p>
+    {% endif %}
+    <input type="text" name="username" placeholder="아이디" required><br>
+    <input type="password" name="password" placeholder="비밀번호" required><br>
+    <button class="register" type="submit">회원가입</button>
+    <p>이미 계정이 있나요? <a href="{{ url_for('login') }}">로그인</a></p>
+  </form>
+</body>
+</html>

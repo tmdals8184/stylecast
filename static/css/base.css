@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'Jalnan';
+  src: url('../Jalnan2TTF.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --logo: #35A78B;
+  --brown: #543A14;
+  --line-brown: #A08963;
+  --light-brown: #A79277;
+  --pale-brown: #D7D3BF;
+  --mint: #8EB486;
+  --light-mint: #CEE5D0;
+  --font-family-main: 'Jalnan', sans-serif;
+  --font-size-base: 16px;
+}
+
+html, body {  
+  font-family: var(--font-family-main);
+  color: var(--brown);
+  margin: 0;
+  padding: 0;
+}
+
+h1 { font-size: 64px; }
+h2 { font-size: 50px; }

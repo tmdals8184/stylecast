@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ date }} 사진 - {{ username }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/photos.css') }}">
+</head>
+<body>
+  <h1>{{ date }}</h1>
+
+  <form action="{{ url_for('save_memo') }}" method="post" class="memo">
+    <input type="hidden" name="date" value="{{ date }}">
+    <textarea name="memo" placeholder="한 줄 일기">{{ memo or '' }}</textarea><br>
+    <button type="submit" class="btn">Save</button>
+  </form>
+
+  {% if photos_grouped['face'] or photos_grouped['real'] %}
+    <h2>얼굴 사진 & 실제 착장</h2>
+    <div class="photo-group real" data-category="face-real">
+      {% for photo in photos_grouped['face'] %}
+        <div class="photo-container">
+          <img src="{{ photo.data }}" alt="{{ photo.filename }}">
+          <form action="{{ url_for('delete_photo') }}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <input type="hidden" name="date" value="{{ date }}">
+            <input type="hidden" name="filename" value="{{ photo.filename }}">
+            <input type="hidden" name="photo_type" value="{{ photo.photo_type or 'face' }}">
+            <button type="submit" class="btn delete">삭제</button>
+          </form>
+        </div>
+      {% endfor %}
+      {% for photo in photos_grouped['real'] %}
+        <div class="photo-container">
+          <img src="{{ photo.data }}" alt="{{ photo.filename }}">
+          <form action="{{ url_for('delete_photo') }}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <input type="hidden" name="date" value="{{ date }}">
+            <input type="hidden" name="filename" value="{{ photo.filename }}">
+            <input type="hidden" name="photo_type" value="{{ photo.photo_type or 'real' }}">
+            <button type="submit" class="btn delete">삭제</button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <h3>Input Photo</h3>
+  {% endif %}
+
+  
+  {% if photos_grouped['pinterest'] %}
+    <h2>추천 코디</h2>
+    <div class="photo-group recommend" data-category="pinterest">
+      {% for photo in photos_grouped['pinterest'] %}
+        <div class="photo-container">
+          <img src="{{ photo.data }}" alt="{{ photo.filename }}">
+          <form action="{{ url_for('delete_photo') }}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <input type="hidden" name="date" value="{{ date }}">
+            <input type="hidden" name="filename" value="{{ photo.filename }}">
+            <input type="hidden" name="photo_type" value="pinterest">
+          </form>
+        </div>
+        
+        
+      {% endfor %}
+    </div>
+    <div id="pagination-buttons">
+      <button id="prev-btn" disabled>이전</button>
+      <button id="next-btn">다음</button>
+    </div>
+  {% else %}
+    <p></p>
+  {% endif %}
+
+  
+  <div class="upload-section">
+    <!-- <h3>사진 업로드</h3> -->
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="date" value="{{ date }}">
+      <label>
+        <input type="radio" name="photo_type" value="face" checked>
+        <span>얼굴 사진</span>
+      </label>
+      <label>
+        <input type="radio" name="photo_type" value="real">
+        <span>실제 착장</span>
+      </label>
+      <br><br>
+      <input type="file" name="file" accept="image/*" required>
+      <br><br>
+      <button type="submit" class="btn">사진 업로드</button>
+    </form>
+  </div>
+
+
+
+  <a href="{{ url_for('index') }}">← 달력으로 돌아가기</a>
+
+  <script>
+    const photosPerPage = 3;
+
+    // 사진 그룹 노드들 가져오기
+    const photoGroups = document.querySelectorAll('.photo-group');
+    let currentPage = 1;
+
+    // 크롤링 사진 그룹 선택
+    const pinterestGroup = document.querySelector('.photo-group[data-category="pinterest"]');
+    let pinterestPhotos = [];
+    if (pinterestGroup) {
+      pinterestPhotos = Array.from(pinterestGroup.children);
+    }
+
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    let totalPages = Math.ceil(pinterestPhotos.length / photosPerPage);
+
+    function showPage(page) {
+      // 'face'와 'real' 합친 그룹은 항상 보이도록 설정 (여기선 data-category="face-real")
+      photoGroups.forEach(group => {
+        if (group.dataset.category !== 'pinterest') {
+          group.style.display = 'block';
+          Array.from(group.children).forEach(photo => {
+            photo.style.display = 'inline-block';
+          });
+        }
+      });
+
+      // pinterest(크롤링 사진)만 페이지네이션 적용
+      if (pinterestGroup) {
+        const start = (page - 1) * photosPerPage;
+        const end = page * photosPerPage;
+
+        pinterestPhotos.forEach((photo, idx) => {
+          if (idx >= start && idx < end) {
+            photo.style.display = 'inline-block';
+          } else {
+            photo.style.display = 'none';
+          }
+        });
+      }
+
+      prevBtn.disabled = (page === 1);
+      nextBtn.disabled = (page === totalPages || totalPages === 0);
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    });
+
+    showPage(currentPage);
+  </script>
+</body>

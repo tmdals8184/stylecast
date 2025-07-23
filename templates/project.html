@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>달력 - {{ username }}님 환영합니다</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/project.css') }}">
+</head>
+<body style="background-image: url('/static/{{ season }}.gif');">
+  <div class="wrapper">
+    <div id="logout">
+      <a href="{{ url_for('logout') }}">로그아웃</a>
+    </div>
+
+    <h2>Click to Calendar</h2>
+
+    <div class="controls">
+      <button id="prev">Prev</button>
+      <div id="monthYear"></div>
+      <button id="next">Next</button>
+    </div>
+
+    <div id="calendar"></div>
+
+    <script>
+      let current = new Date();
+      let selectedDate = null;
+
+      function formatDate(date) {
+        const y = date.getFullYear();
+        const m = (date.getMonth() + 1).toString().padStart(2, '0');
+        const d = date.getDate().toString().padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+
+      function createCalendar(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+
+        const today = new Date();
+        const thisYear = today.getFullYear();
+        const thisMonth = today.getMonth();
+        const thisDate = today.getDate();
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const lastDate = new Date(year, month + 1, 0).getDate();
+
+        const season = getSeason(month);
+        
+        document.body.style.backgroundImage = `url('/static/${season}.gif')`;
+        document.getElementById('monthYear').innerText = `${year}년 ${month + 1}월`;
+
+        let calendar = '<table>';
+        calendar += '<tr><th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>';
+        calendar += '<tr>';
+
+        for (let i = 0; i < firstDay; i++) {
+          calendar += '<td></td>';
+        }
+
+        for (let d = 1; d <= lastDate; d++) {
+          const day = new Date(year, month, d).getDay();
+
+          let classes = '';
+          if (year === thisYear && month === thisMonth && d === thisDate) {
+            classes = 'today';
+          }
+          if(selectedDate === formatDate(new Date(year, month, d))) {
+            classes += (classes ? ' ' : '') + 'selected';
+          }
+
+          calendar += `<td class="${classes}" data-date="${d}">${d}</td>`;
+
+          if (day === 6 && d !== lastDate) {
+            calendar += '</tr><tr>';
+          }
+        }
+
+        calendar += '</tr></table>';
+        document.getElementById('calendar').innerHTML = calendar;
+
+        document.querySelectorAll('#calendar td').forEach(td => {
+          td.addEventListener('click', () => {
+            if (td.innerText !== '') {
+              const clickedDate = formatDate(new Date(year, month, td.dataset.date));
+              selectedDate = clickedDate;
+              window.location.href = `/photos_page/${clickedDate}`;
+            }
+          });
+        });
+      }
+
+      document.getElementById('prev').addEventListener('click', () => {
+        current.setMonth(current.getMonth() - 1);
+        createCalendar(current);
+      });
+
+      document.getElementById('next').addEventListener('click', () => {
+        current.setMonth(current.getMonth() + 1);
+        createCalendar(current);
+      });
+
+      window.onload = () => {
+        createCalendar(current);
+      };
+      
+      function getSeason(month) {
+        if (month >= 2 && month <= 4) { // 3~5월 (봄)
+          return 'spring';
+        } else if (month >= 5 && month <= 7) { // 6~8월 (여름)
+          return 'summer';
+        } else if (month >= 8 && month <= 10) { // 9~11월 (가을)
+          return 'fall';
+        } else {
+          return 'winter'; // 12~2월 (겨울)
+        }
+      }
+    </script>
+  </div>
+
+</body>
+</html>
